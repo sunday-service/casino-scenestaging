@@ -1,8 +1,8 @@
 {
-  "Title": "Testbed",
+  "Title": "Casino",
   "Type": "game",
-  "Org": "facepunch",
-  "Ident": "testbed",
+  "Org": "sundayservice",
+  "Ident": "casino",
   "Tags": null,
   "Schema": 1,
   "HasAssets": true,

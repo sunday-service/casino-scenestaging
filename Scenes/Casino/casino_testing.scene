@@ -40,6 +40,7 @@
           "__enabled": true,
           "IsTrigger": false,
           "Scale": "99.89995,100.0999,0.4999697",
+          "Static": false,
           "Surface": "surfaces/carpet.surface"
         }
       ]
@@ -168,7 +169,7 @@
               "__type": "CameraComponent",
               "__enabled": true,
               "BackgroundColor": "0.25292,0.26086,0.29703,1",
-              "ClearFlags": "Color, Depth, Stencil",
+              "ClearFlags": "All",
               "FieldOfView": 80,
               "Orthographic": false,
               "OrthographicHeight": 1204,
@@ -305,6 +306,10 @@
       "Tags": "interactable",
       "Components": [
         {
+          "__type": "BlackJackMachine",
+          "__enabled": true
+        },
+        {
           "__type": "ModelComponent",
           "__enabled": true,
           "BodyGroups": 18446744073709551615,
@@ -314,15 +319,48 @@
           "Tint": "1,1,1,1"
         },
         {
-          "__type": "BlackJackMachine",
-          "__enabled": true
-        },
-        {
           "__type": "ModelCollider",
           "__enabled": true,
           "IsTrigger": false,
           "Model": "models/sbox_props/tv/tv.vmdl",
+          "Static": false,
           "Surface": null
+        }
+      ]
+    },
+    {
+      "Id": "9e2c8158-34b6-4f98-bdbb-ae9a1b930588",
+      "Name": "Screen Panel",
+      "Enabled": true,
+      "Position": "-0.0000001020514,-74.18726,70.75726",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__enabled": true,
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        }
+      ],
+      "Children": [
+        {
+          "Id": "4fce7333-0291-44c6-b391-34a94fe43cf9",
+          "Name": "Not Important UI",
+          "Enabled": true,
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Components": [
+            {
+              "__type": "Crosshair",
+              "__enabled": true
+            }
+          ]
         }
       ]
     }

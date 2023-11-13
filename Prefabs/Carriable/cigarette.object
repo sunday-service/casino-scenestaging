@@ -1,0 +1,72 @@
+{
+  "RootObject": {
+    "Id": "f4a90447-3a9d-4a94-bc26-7c0924307a26",
+    "Name": "cigarette",
+    "Enabled": true,
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Children": [
+      {
+        "Id": "ca5e90f0-b633-4360-aab4-9e07d13b3d6b",
+        "Name": "Object",
+        "Enabled": true,
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Children": [
+          {
+            "Id": "21532f20-b92b-40b2-b9c0-cff745c20232",
+            "Name": "Object",
+            "Enabled": true,
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Components": [
+              {
+                "__type": "ModelComponent",
+                "__enabled": true,
+                "BodyGroups": 18446744073709551615,
+                "MaterialOverride": null,
+                "Model": "models/cigarettes/cigarette_kingsize.vmdl",
+                "ShouldCastShadows": true,
+                "Tint": "1,1,1,1"
+              },
+              {
+                "__type": "CigaretteComponent",
+                "__enabled": true,
+                "AmountSmoked": 0.37
+              }
+            ],
+            "Children": [
+              {
+                "Id": "11497e29-6589-4d14-86f2-5d10ea8e3fda",
+                "Name": "Object",
+                "Enabled": true,
+                "Position": "0,0,7.56",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Components": [
+                  {
+                    "__type": "ParticleSystem",
+                    "__enabled": true,
+                    "Looped": false,
+                    "Particles": "particles/smoke_cigarette_01.vpcf",
+                    "PlaybackSpeed": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "__references": [
+    "sundayservice.smoke_cigarette_01"
+  ]
+}

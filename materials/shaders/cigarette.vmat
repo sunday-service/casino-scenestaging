@@ -4,10 +4,17 @@ Layer0
 {
 	shader "shaders/cigarette.shader"
 
-	//---- Rendering ----
-	F_RENDER_BACKFACES 1
+	//---- Fog ----
+	g_bFogEnabled "1"
 
 	//---- Material ----
-	TextureColor "materials/default/default_color.tga"
-	TextureTranslucency "materials/default/default_trans.tga"
+	g_flTintColor "[1.000000 1.000000 1.000000 0.000000]"
+	TextureAmbientOcclusion "materials/shaders/cigarettes_ao.png"
+	TextureBlendMask "materials/default/default_blend.tga"
+	TextureColor "materials/shaders/cigarettes_color.png"
+	TextureMetalness "materials/shaders/cigarettes_metal.png"
+	TextureNormal "materials/shaders/cigarettes_normal.png"
+	TextureRoughness "materials/shaders/cigarettes_rough.png"
+	TextureTintMask "materials/default/default.tga"
+	TextureTranslucency "[1.000000 1.000000 1.000000 0.000000]"
 }

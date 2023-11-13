@@ -68,13 +68,16 @@ VS
 PS
 {
     #include "common/pixel.hlsl"
+	#include "procedural.hlsl"
 
 	float g_flAshLevel <Attribute("AshLevel"); Default(0.125);>;
-	float g_flBurnLevel <Attribute("BurnLevel"); Default(0.75f);>;
+	float g_flBurnLevel <Attribute("BurnLevel"); Range(0, 0.69f); Default(0.5f);>;
+
+	RenderState(CullMode, NONE);
 
 	float3 Inverse(float3 input) 
 	{
-		return clamp(1 - (2*input), 0, 1);
+		return clamp(1 - (2 * input), 0, 1);
 	}
 
 	float3 BurnLevelMask(PixelInput i) 
@@ -96,17 +99,23 @@ PS
 
     float4 MainPs(PixelInput i, bool isFrontFace : SV_IsFrontFace)  : SV_Target0
     {
-		float3 burnMaskColor = BurnLevelMask(i) * float3(1, 0, 0);
+		Material m = Material::From( i );
+
+		float3 burnMaskColor = BurnLevelMask(i) * float3(0, 0, 1);
 		float3 ashMaskColor = AshLevelMask(i) * float3(0, 1, 0);
 
-		float3 backFace = burnMaskColor + ashMaskColor; 
-		float3 frontFace = float3(0.6,0.0,0.0);
+		float3 backFace = m.Albedo; 
+		float3 frontFace = float3(1, 0, 0);
 
 		float4 result = float4(lerp(frontFace, backFace, isFrontFace), 1.0);
-        
-		//clip(BurnLevelMask(i) > 0 ? 1 : -1);
-		//clip(AshLevelMask(i) > 0 ? 1 : -1);
 
-        return result;
+		float facing = (isFrontFace * 0.5) + 0.5;
+
+		m.Albedo = float4(m.Albedo, 1.0);
+		m.Emission = lerp(float4(1,0,0,0), m.Emission, facing);
+        
+		clip(BurnLevelMask(i) > 0 ? 1 : -1);
+
+        return ShadingModelStandard::Shade( i, m );
     }
 }

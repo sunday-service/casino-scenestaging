@@ -69,23 +69,43 @@ PS
 {
     #include "common/pixel.hlsl"
 
-	float g_flBurnAmount <Attribute("BurnAmount"); Default(.125f);>;
+	float g_flAshLevel <Attribute("AshLevel"); Default(0.125);>;
+	float g_flBurnLevel <Attribute("BurnLevel"); Default(0.75f);>;
+
+	float3 Inverse(float3 input) 
+	{
+		return clamp(1 - (2*input), 0, 1);
+	}
+
+	float3 BurnLevelMask(PixelInput i) 
+	{
+		float burnLevel = g_flBurnLevel;
+
+		float burnPosition = i.vBurnLevel.z;
+        float burnEdge = 1 - (2 * burnLevel);
+        
+		return step(burnPosition, burnEdge);
+	}
+
+	float3 AshLevelMask(PixelInput i) 
+	{
+		float3 mask = Inverse(BurnLevelMask(i));
+
+		return mask;
+	}
 
     float4 MainPs(PixelInput i, bool isFrontFace : SV_IsFrontFace)  : SV_Target0
     {
-		float burnAmount = g_flBurnAmount;
+		float3 burnMaskColor = BurnLevelMask(i) * float3(1, 0, 0);
+		float3 ashMaskColor = AshLevelMask(i) * float3(0, 1, 0);
 
-		float burnPosition = i.vBurnLevel.z;
-        float burnEdge = 1 - (2 * burnAmount);
-        
-		float burnMask = step(burnPosition, burnEdge);
-
-		float3 backFace = float3(burnMask, burnMask, burnMask);
+		float3 backFace = burnMaskColor + ashMaskColor; 
 		float3 frontFace = float3(0.6,0.0,0.0);
 
 		float4 result = float4(lerp(frontFace, backFace, isFrontFace), 1.0);
         
-		clip(burnMask > 0 ? 1 : -1);
+		//clip(BurnLevelMask(i) > 0 ? 1 : -1);
+		//clip(AshLevelMask(i) > 0 ? 1 : -1);
 
         return result;
     }

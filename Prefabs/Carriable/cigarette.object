@@ -10,7 +10,7 @@
     "Children": [
       {
         "Id": "ca5e90f0-b633-4360-aab4-9e07d13b3d6b",
-        "Name": "Object",
+        "Name": "Cigarette",
         "Enabled": true,
         "Position": "0,0,0",
         "Rotation": "0,0,0,1",
@@ -19,7 +19,7 @@
         "Children": [
           {
             "Id": "21532f20-b92b-40b2-b9c0-cff745c20232",
-            "Name": "Object",
+            "Name": "Model",
             "Enabled": true,
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
@@ -37,16 +37,16 @@
               },
               {
                 "__type": "CigaretteComponent",
-                "__enabled": true,
+                "__enabled": false,
                 "AmountSmoked": 0.37
               }
             ],
             "Children": [
               {
                 "Id": "11497e29-6589-4d14-86f2-5d10ea8e3fda",
-                "Name": "Object",
+                "Name": "Smoke Particles",
                 "Enabled": true,
-                "Position": "0,0,7.56",
+                "Position": "0,0,12",
                 "Rotation": "0,0,0,1",
                 "Scale": "1,1,1",
                 "Tags": "",

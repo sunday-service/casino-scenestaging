@@ -55,9 +55,7 @@ VS
 	{
 		PixelInput i = ProcessVertex( v );
 
-		float3 vPositionWs = normalize(mul(CalculateInstancingObjectToWorldMatrix(v), float4(v.vPositionOs.xyz, 0.0)));
-
-		i.vBurnLevel = vPositionWs;
+		i.vBurnLevel = normalize(mul(CalculateInstancingObjectToWorldMatrix(v), float4(v.vPositionOs.xyz, 0.0)));
 
 		return FinalizeVertex( i );
 	}
@@ -72,6 +70,7 @@ PS
 
 	float g_flAshLevel <Attribute("AshLevel"); Default(0.125);>;
 	float g_flBurnLevel <Attribute("BurnLevel"); Range(0, 0.69f); Default(0.5f);>;
+	float3 g_vDirection <Attribute("Direction");>;
 
 	RenderState(CullMode, NONE);
 
@@ -84,7 +83,7 @@ PS
 	{
 		float burnLevel = g_flBurnLevel;
 
-		float burnPosition = i.vBurnLevel.z;
+		float burnPosition = dot(i.vBurnLevel, g_vDirection);
         float burnEdge = 1 - (2 * burnLevel);
         
 		return step(burnPosition, burnEdge);
@@ -101,18 +100,12 @@ PS
     {
 		Material m = Material::From( i );
 
-		float3 burnMaskColor = BurnLevelMask(i) * float3(0, 0, 1);
-		float3 ashMaskColor = AshLevelMask(i) * float3(0, 1, 0);
-
-		float3 backFace = m.Albedo; 
-		float3 frontFace = float3(1, 0, 0);
-
-		float4 result = float4(lerp(frontFace, backFace, isFrontFace), 1.0);
-
-		float facing = (isFrontFace * 0.5) + 0.5;
-
-		m.Albedo = float4(m.Albedo, 1.0);
-		m.Emission = lerp(float4(1,0,0,0), m.Emission, facing);
+		m.Albedo = lerp(float4(1,0,0,1), float4(m.Albedo, 1), isFrontFace);
+		m.Metalness = m.Metalness * isFrontFace;
+		m.Roughness = m.Roughness * isFrontFace;
+		m.AmbientOcclusion = m.AmbientOcclusion * isFrontFace;
+		m.Normal = lerp(normalize(NormalWorldToTangent(i, g_vDirection)), m.Normal , isFrontFace);
+		m.Emission = lerp(float3(1,0,0), m.Emission, isFrontFace);
         
 		clip(BurnLevelMask(i) > 0 ? 1 : -1);
 

@@ -97,13 +97,6 @@
           "StartingAmount": 1500
         },
         {
-          "__type": "InteractorComponent",
-          "__enabled": true,
-          "InteractRange": 4000,
-          "LayerMask": "interactable",
-          "Player": "977e3164-0ec9-4334-b614-3cc97c5e2d6c"
-        },
-        {
           "__type": "CasinoPlayerController",
           "__enabled": true,
           "AnimationHelper": "977e3164-0ec9-4334-b614-3cc97c5e2d6c",
@@ -112,6 +105,13 @@
           "Eye": "10bb6219-a653-4b65-a4f6-b4dc0884745d",
           "FirstPerson": false,
           "Gravity": "0,0,800"
+        },
+        {
+          "__type": "InteractorComponent",
+          "__enabled": true,
+          "InteractRange": 4000,
+          "LayerMask": "interactable",
+          "Player": "977e3164-0ec9-4334-b614-3cc97c5e2d6c"
         }
       ],
       "Children": [
@@ -1479,37 +1479,14 @@
       "__Prefab": "prefabs/envionment/default_environment.object"
     },
     {
-      "Id": "bde09e18-9d17-4dc0-a952-91fa7065b14b",
+      "Id": "421f8496-b2a9-4c4a-9caa-cdbf0469e1c7",
       "Name": "Arcade Machine",
       "Enabled": true,
-      "Position": "0,128,0",
-      "Rotation": "0.0000000009713754,-0.00000005958877,0.00000000000000005788307,1",
+      "Position": "0,128,1.099998",
+      "Rotation": "0,0,0,1",
       "Scale": "0.5,0.5,0.5",
       "Tags": "interactable",
-      "Components": [
-        {
-          "__type": "ModelComponent",
-          "__enabled": true,
-          "BodyGroups": 18446744073709551615,
-          "MaterialOverride": null,
-          "Model": "models/arcadecabinet/arcademachine_01.vmdl",
-          "ShouldCastShadows": true,
-          "Tint": "1,1,1,1"
-        },
-        {
-          "__type": "ModelCollider",
-          "__enabled": true,
-          "IsTrigger": false,
-          "Model": "models/arcadecabinet/arcademachine_01.vmdl",
-          "Static": false,
-          "Surface": null
-        },
-        {
-          "__type": "ArcadeMachine",
-          "__enabled": true,
-          "ArcadeCost": 40
-        }
-      ]
+      "__Prefab": "prefabs/interactables/machines/arcade/arcade_machine.object"
     }
   ],
   "SceneProperties": {
@@ -1522,7 +1499,6 @@
   "Title": "interactables_test",
   "Description": "",
   "__references": [
-    "sundayservice.arcademachine_01",
     "sundayservice.smoke_cigarette_01"
   ]
 }

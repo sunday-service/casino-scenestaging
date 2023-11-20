@@ -4,7 +4,7 @@
     "Name": "Arcade Machine",
     "Enabled": true,
     "Position": "0,128,0",
-    "Rotation": "0.0000000009713754,-0.00000005958877,0.00000000000000005788307,1",
+    "Rotation": "0,0,0,1",
     "Scale": "0.5,0.5,0.5",
     "Tags": "interactable",
     "Components": [
@@ -18,17 +18,17 @@
         "Tint": "1,1,1,1"
       },
       {
-        "__type": "ModelCollider",
-        "__enabled": true,
-        "IsTrigger": false,
-        "Model": "models/arcadecabinet/arcademachine_01.vmdl",
-        "Static": false,
-        "Surface": null
-      },
-      {
         "__type": "ArcadeMachine",
         "__enabled": true,
         "ArcadeCost": 40
+      },
+      {
+        "__type": "ColliderBoxComponent",
+        "__enabled": true,
+        "IsTrigger": false,
+        "Scale": "84,80,340",
+        "Static": false,
+        "Surface": null
       }
     ]
   },

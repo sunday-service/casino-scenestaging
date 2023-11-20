@@ -4,7 +4,7 @@
       "Id": "ee892de0-83da-4528-9723-83c6861030d5",
       "Name": "Cigarette Machine",
       "Enabled": true,
-      "Position": "46.20094,23.35711,32",
+      "Position": "0,64,32",
       "Rotation": "0.00000005959669,0.000000000000001159872,0.9998664,0.01629907",
       "Scale": "1,1,1",
       "Tags": "interactable",

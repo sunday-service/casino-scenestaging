@@ -4,7 +4,7 @@
       "Id": "c82b9033-2416-4872-827a-e295bcc81b79",
       "Name": "Cigarette Vending Machine",
       "Enabled": true,
-      "Position": "0,-61.3487,31.48689",
+      "Position": "0,64,32",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "interactable",
@@ -1477,6 +1477,39 @@
       "Scale": "1,1,1",
       "Tags": "",
       "__Prefab": "prefabs/envionment/default_environment.object"
+    },
+    {
+      "Id": "bde09e18-9d17-4dc0-a952-91fa7065b14b",
+      "Name": "Arcade Machine",
+      "Enabled": true,
+      "Position": "0,128,0",
+      "Rotation": "0.0000000009713754,-0.00000005958877,0.00000000000000005788307,1",
+      "Scale": "0.5,0.5,0.5",
+      "Tags": "interactable",
+      "Components": [
+        {
+          "__type": "ModelComponent",
+          "__enabled": true,
+          "BodyGroups": 18446744073709551615,
+          "MaterialOverride": null,
+          "Model": "models/arcadecabinet/arcademachine_01.vmdl",
+          "ShouldCastShadows": true,
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "ModelCollider",
+          "__enabled": true,
+          "IsTrigger": false,
+          "Model": "models/arcadecabinet/arcademachine_01.vmdl",
+          "Static": false,
+          "Surface": null
+        },
+        {
+          "__type": "ArcadeMachine",
+          "__enabled": true,
+          "ArcadeCost": 40
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -1489,6 +1522,7 @@
   "Title": "interactables_test",
   "Description": "",
   "__references": [
+    "sundayservice.arcademachine_01",
     "sundayservice.smoke_cigarette_01"
   ]
 }

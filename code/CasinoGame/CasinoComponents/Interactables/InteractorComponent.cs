@@ -5,33 +5,32 @@ namespace Casino;
 public class InteractorComponent : BaseComponent
 {
 	[Property]
-	public GameObject source { get; set; }
+	public GameObject Player { get; set; }
 	
 	[Property]
-	public float interactRange { get; set; }
+	public float InteractRange { get; set; }
 	
 	[Property]
-	public TagSet layerMask { get; set; } = new();
+	public TagSet LayerMask { get; set; } = new();
 	
 	PhysicsTraceBuilder TraceRay( Vector3 from, Vector3 to ) => Scene.PhysicsWorld.Trace.Ray( from, to );
 
-	public override void OnEnabled()
+	public override void Update()
 	{
-		
-	}
-
-	public override void FixedUpdate()
-	{
-		if ( Input.Down( "Use" ) )
+		if ( Player.GetComponent<CasinoPlayerController>() is CasinoPlayerController controller )
 		{
-			var ray = TraceRay( source.Transform.Position, source.Transform.Rotation.Forward * interactRange )
-				.WithAnyTags( layerMask )
-				.Run();
-			if ( ray.Hit && ray.Body.GameObject is GameObject interacted )
+			if ( Input.Pressed( "Use" ) )
 			{
-				if ( interacted.TryGetComponent( out IInteractable interactableObj ) )
+				var ray = TraceRay( controller.Eye.Transform.Position, controller.EyeAngles.ToRotation().Forward * InteractRange )
+					.WithAnyTags( LayerMask )
+					.Run();
+
+				if ( ray.Hit && ray.Body.GameObject is GameObject interacted )
 				{
-					interactableObj.Interact();
+					if ( interacted.TryGetComponent( out IInteractable interactableObj ) )
+					{
+						interactableObj.Interact(Player);
+					}
 				}
 			}
 		}

@@ -15,7 +15,7 @@
 						[
 							{
 								from = "cigarette_mat.vmat"
-								to = "materials/models/cigarettes/cigarettes_01.vmat"
+								to = "materials/shaders/cigarette.vmat"
 							},
 						]
 						use_global_default = false

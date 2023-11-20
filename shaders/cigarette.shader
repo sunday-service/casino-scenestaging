@@ -68,11 +68,11 @@ PS
     #include "common/pixel.hlsl"
 	#include "procedural.hlsl"
 
+	RenderState(CullMode, NONE);
+
 	float g_flAshLevel <Attribute("AshLevel"); Default(0.125);>;
 	float g_flBurnLevel <Attribute("BurnLevel"); Range(0, 0.69f); Default(0.5f);>;
 	float3 g_vDirection <Attribute("Direction");>;
-
-	RenderState(CullMode, NONE);
 
 	float3 Inverse(float3 input) 
 	{
@@ -100,13 +100,13 @@ PS
     {
 		Material m = Material::From( i );
 
-		m.Albedo = lerp(float4(1,0,0,1), float4(m.Albedo, 1), isFrontFace);
-		m.Metalness = m.Metalness * isFrontFace;
-		m.Roughness = m.Roughness * isFrontFace;
+		m.Albedo = lerp(float3(1,0,0), m.Albedo, isFrontFace);
+		
+		m.Metalness = lerp(0, m.Metalness, isFrontFace);
+		m.Roughness = lerp(0, m.Roughness, isFrontFace);
 		m.AmbientOcclusion = m.AmbientOcclusion * isFrontFace;
-		m.Normal = lerp(normalize(NormalWorldToTangent(i, g_vDirection)), m.Normal , isFrontFace);
-		m.Emission = lerp(float3(1,0,0), m.Emission, isFrontFace);
-        
+		m.Normal = normalize(lerp(NormalWorldToTangent(i, i.vNormalWs), m.Normal, isFrontFace));
+
 		clip(BurnLevelMask(i) > 0 ? 1 : -1);
 
         return ShadingModelStandard::Shade( i, m );

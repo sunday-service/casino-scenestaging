@@ -1,0 +1,22 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@attribute [StyleSheet]
+
+<root>
+    <div class="money">
+        <div class="value">@PlayerMoney</div>
+    </div>
+
+</root>
+
+@code
+{
+    [Property] public GameObject TargetPlayer { get; set; }
+
+    private uint PlayerMoney => TargetPlayer.GetComponent<PlayerMoney>(true, true).CurrentMoney;
+
+
+    protected override int BuildHash() => System.HashCode.Combine(PlayerMoney);
+
+}

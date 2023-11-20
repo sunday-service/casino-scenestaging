@@ -1,0 +1,97 @@
+{
+  "RootObject": {
+    "Id": "3a73966d-18b3-48d6-b133-ecdd2fd39c32",
+    "Name": "Default Environment",
+    "Enabled": true,
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Children": [
+      {
+        "Id": "d295f17a-3dbc-42c8-a6ad-c3006d5f2f01",
+        "Name": "Directional Light",
+        "Enabled": true,
+        "Position": "0,0,128",
+        "Rotation": "0.8894004,0.1914825,-0.4057941,0.087365",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Components": [
+          {
+            "__type": "DirectionalLightComponent",
+            "__enabled": true,
+            "LightColor": "1,0.89069,0.76238,1",
+            "Shadows": true,
+            "SkyColor": "0.10599,0.11132,0.12376,1"
+          }
+        ]
+      },
+      {
+        "Id": "52358567-a686-4fc1-b999-24402ab81620",
+        "Name": "SkyBox",
+        "Enabled": true,
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Components": [
+          {
+            "__type": "SkyBox2D",
+            "__enabled": true,
+            "SkyMaterial": "materials/skybox/light_test_sky_night_basic.vmat",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "EnvmapComponent",
+            "__enabled": true,
+            "Bounds": {
+              "Mins": "-4096,-4096,-4096",
+              "Maxs": "4096,4096,4096"
+            },
+            "Projection": "Sphere",
+            "Texture": "textures/cubemaps/default.vtex",
+            "TintColor": "0.12857,0.20583,0.42574,1"
+          }
+        ]
+      },
+      {
+        "Id": "042d7d7a-0285-4231-a6f0-94a2fc37168b",
+        "Name": "Gradient Fog",
+        "Enabled": true,
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": ""
+      },
+      {
+        "Id": "214d00b9-1f98-4c2a-8fde-04fe01fd5af4",
+        "Name": "Surface",
+        "Enabled": true,
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "20,20,20",
+        "Tags": "",
+        "Components": [
+          {
+            "__type": "ModelComponent",
+            "__enabled": true,
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/shine.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "ShouldCastShadows": true,
+            "Tint": "0.05882,0.13725,0.49412,1"
+          },
+          {
+            "__type": "ColliderBoxComponent",
+            "__enabled": true,
+            "IsTrigger": false,
+            "Scale": "100,100,0.01",
+            "Static": false,
+            "Surface": null
+          }
+        ]
+      }
+    ]
+  },
+  "__references": []
+}

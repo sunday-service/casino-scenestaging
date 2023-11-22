@@ -4,11 +4,13 @@ public sealed class LiquidComponent : BaseComponent, BaseComponent.ExecuteInEdit
 {
 	[Property, Range(0, 1)] public float FillAmount { get; set; } = 0.5f;
 	[Property, Range( 0, 0.5f )] public float FoamThickness { get; set; } = 0.05f;
+
 	[Property] public Color FillColorFoam { get; set; } = new Color( 0, 0.6f, 0.7f );
 	[Property] public Color FillColorUpper { get; set; } = new Color( 0.0f, 0.5f, 0.5f );
 	[Property] public Color FillColorLower { get; set; } = new Color( 0.0f, 0.0f, 1.0f);
 
 	[Property, Range(0, 8, 0.1f)] public float RimLightStrengthPower { get; set; } = 2;
+
 	[Property, Range(0, 0.1f)] public float MaxWobble { get; set; } = 0.004f;
 
 	[Property, Range( 0, 64, 0.25f )] public float WobbleFrequency { get; set; } = 4f;
@@ -66,8 +68,6 @@ public sealed class LiquidComponent : BaseComponent, BaseComponent.ExecuteInEdit
 			LastPosition = Transform.Position;
 			LastRotation = Transform.Rotation.Angles().AsVector3();
 		}
-
-		//Graphics.RenderTarget = null;
 	}
 		
 }

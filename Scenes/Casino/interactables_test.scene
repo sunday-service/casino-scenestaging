@@ -87,7 +87,6 @@
           "EyeSource": "2d87cb36-e435-4b93-8934-23f79ee7b6ef",
           "Height": 1.22,
           "IkLeftHand": "e92eefed-652a-4e82-98c4-cf549a8a31be",
-          "IkRightFoot": "76e4183a-6d18-475f-9ef9-f88711e7a3ed",
           "IkRightHand": "af129e50-5355-4509-bba6-f20507791d06",
           "Target": "34e38339-4bbb-417d-b951-588263aeb766"
         },
@@ -1675,6 +1674,117 @@
               ]
             }
           ]
+        },
+        {
+          "Id": "b15b3a5e-438b-4465-b5a5-ea6a324c93ce",
+          "Name": "Cards",
+          "Enabled": true,
+          "Position": "0,64,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Children": [
+            {
+              "Id": "76bdbb6f-761f-439a-aa9a-56331e23d00f",
+              "Name": "Dealer Facing Card",
+              "Enabled": true,
+              "Position": "-12,-66,30.5",
+              "Rotation": "0,0,0,1",
+              "Scale": "1,1,1",
+              "Tags": "",
+              "Components": [
+                {
+                  "__type": "ModelComponent",
+                  "__enabled": true,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialOverride": "materials/gamemodes/poker/playingcard/heart/playingcards_heart_9.vmat",
+                  "Model": "models/gamemodes/poker/playingcards/playingcards.vmdl",
+                  "ShouldCastShadows": true,
+                  "Tint": "1,1,1,1"
+                }
+              ]
+            },
+            {
+              "Id": "edab45b9-552c-4bfd-85e4-d85417cae36b",
+              "Name": "Dealer Hidden Card",
+              "Enabled": true,
+              "Position": "-12,-72,30.5",
+              "Rotation": "1,0,0,-0.0000006397578",
+              "Scale": "1,1,1",
+              "Tags": "",
+              "Components": [
+                {
+                  "__type": "ModelComponent",
+                  "__enabled": true,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialOverride": "materials/gamemodes/poker/playingcard/clubs/playingcards_club_6.vmat",
+                  "Model": "models/gamemodes/poker/playingcards/playingcards.vmdl",
+                  "ShouldCastShadows": true,
+                  "Tint": "1,1,1,1"
+                }
+              ]
+            },
+            {
+              "Id": "328cba89-8d7e-494e-9aca-c4dd3c8e2eac",
+              "Name": "Player Facing Card",
+              "Enabled": true,
+              "Position": "14,-72,30.5",
+              "Rotation": "0,0,0,1",
+              "Scale": "1,1,1",
+              "Tags": "",
+              "Components": [
+                {
+                  "__type": "ModelComponent",
+                  "__enabled": true,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialOverride": "materials/gamemodes/poker/playingcard/heart/playingcards_heart_queen.vmat",
+                  "Model": "models/gamemodes/poker/playingcards/playingcards.vmdl",
+                  "ShouldCastShadows": true,
+                  "Tint": "1,1,1,1"
+                }
+              ]
+            },
+            {
+              "Id": "25def8e0-e34c-4496-be57-79c8dc889077",
+              "Name": "Player Hidden Card",
+              "Enabled": true,
+              "Position": "14,-66,30.5",
+              "Rotation": "1,0,0,-0.0000006397578",
+              "Scale": "1,1,1",
+              "Tags": "",
+              "Components": [
+                {
+                  "__type": "ModelComponent",
+                  "__enabled": true,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialOverride": "materials/gamemodes/poker/playingcard/spades/playingcards_spade_3.vmat",
+                  "Model": "models/gamemodes/poker/playingcards/playingcards.vmdl",
+                  "ShouldCastShadows": true,
+                  "Tint": "1,1,1,1"
+                }
+              ]
+            },
+            {
+              "Id": "a67f23aa-9ad5-4b33-90c6-f16b8e69ca26",
+              "Name": "Dealer Card Deck",
+              "Enabled": true,
+              "Position": "-14,-56,30.5",
+              "Rotation": "-0.0000000003006598,0.0000006556511,0.0000000009019785,0.9999999",
+              "Scale": "1,1,1",
+              "Tags": "",
+              "Components": [
+                {
+                  "__type": "ModelComponent",
+                  "__enabled": true,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialOverride": null,
+                  "Model": "models/gamemodes/poker/playingcards/playingcards_deck.vmdl",
+                  "ShouldCastShadows": true,
+                  "Tint": "1,1,1,1"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -1689,6 +1799,8 @@
   "Title": "interactables_test",
   "Description": "",
   "__references": [
+    "baik.playingcards",
+    "baik.playingcards_deck",
     "baik.pokertable",
     "cinemateam.usherhat",
     "cinemateam.usherjacket",

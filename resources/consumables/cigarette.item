@@ -1,0 +1,10 @@
+{
+  "Name": "Cigarette",
+  "Description": "",
+  "Icon": "ui/middlefinger.png",
+  "Worldmodel": "models/cigarettepack/cigarettepack.vmdl",
+  "Viewmodel": "models/cigarettepack/v_cigarettepack.vmdl",
+  "__references": [
+    "pmg.crazy_eights"
+  ]
+}

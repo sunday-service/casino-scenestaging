@@ -8,7 +8,30 @@
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "interactable",
-      "__Prefab": "prefabs/interactables/machines/vending/vending_cigarette.object"
+      "Components": [
+        {
+          "__type": "ModelComponent",
+          "__enabled": true,
+          "BodyGroups": 18446744073709551615,
+          "MaterialOverride": null,
+          "Model": "materials/models/cigarettemachine/cigarettemachine.vmdl",
+          "ShouldCastShadows": true,
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "ModelCollider",
+          "__enabled": true,
+          "IsTrigger": false,
+          "Model": "materials/models/cigarettemachine/cigarettemachine.vmdl",
+          "Static": false,
+          "Surface": null
+        },
+        {
+          "__type": "CigaretteMachine",
+          "__enabled": true,
+          "CigaretteCost": 20
+        }
+      ]
     },
     {
       "Id": "ebb95e90-7b83-41c1-97d1-4cbf878ead01",
@@ -1536,6 +1559,24 @@
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
+      "Components": [
+        {
+          "__type": "ModelCollider",
+          "__enabled": true,
+          "IsTrigger": false,
+          "Model": "models/gamemodes/poker/table/big/big_pokertable.vmdl",
+          "Static": false,
+          "Surface": null
+        },
+        {
+          "__type": "BlackJackTable",
+          "__enabled": true,
+          "DealerFacingCard": "76bdbb6f-761f-439a-aa9a-56331e23d00f",
+          "DealerHiddenCard": "edab45b9-552c-4bfd-85e4-d85417cae36b",
+          "PlayerFacingCard": "328cba89-8d7e-494e-9aca-c4dd3c8e2eac",
+          "PlayerHiddenCard": "25def8e0-e34c-4496-be57-79c8dc889077"
+        }
+      ],
       "Children": [
         {
           "Id": "b74ab157-00ac-4778-8ff5-65d20512be43",
@@ -1554,14 +1595,6 @@
               "Model": "models/gamemodes/poker/table/big/big_pokertable.vmdl",
               "ShouldCastShadows": true,
               "Tint": "1,1,1,1"
-            },
-            {
-              "__type": "ModelCollider",
-              "__enabled": true,
-              "IsTrigger": false,
-              "Model": "models/gamemodes/poker/table/big/big_pokertable.vmdl",
-              "Static": false,
-              "Surface": null
             }
           ]
         },
@@ -1769,7 +1802,7 @@
               "Name": "Dealer Card Deck",
               "Enabled": true,
               "Position": "-14,-56,30.5",
-              "Rotation": "-0.0000000003006598,0.0000006556511,0.0000000009019785,0.9999999",
+              "Rotation": "0,0,0,1",
               "Scale": "1,1,1",
               "Tags": "",
               "Components": [
@@ -1783,6 +1816,50 @@
                   "Tint": "1,1,1,1"
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "fc761482-34a6-47e0-9e4c-bfa920a5fb7a",
+      "Name": "IK Beer Glass Consumable",
+      "Enabled": true,
+      "Position": "20.96705,-33.5254,36.42653",
+      "Rotation": "0,0,0,1",
+      "Scale": "0.65,0.65,0.65",
+      "Tags": "",
+      "Children": [
+        {
+          "Id": "f3bb9e52-5b39-4175-bf14-3656075a6acc",
+          "Name": "Beer Glass",
+          "Enabled": true,
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "0.03,0.03,0.03",
+          "Tags": "",
+          "Components": [
+            {
+              "__type": "ModelComponent",
+              "__enabled": true,
+              "BodyGroups": 18446744073709551615,
+              "MaterialOverride": null,
+              "Model": "models/glasses/beer/beer_glass_01.vmdl",
+              "ShouldCastShadows": true,
+              "Tint": "1,1,1,1"
+            },
+            {
+              "__type": "LiquidComponent",
+              "__enabled": true,
+              "FillAmount": 0.8,
+              "FillColorFoam": "0.69307,0.62308,0.45976,1",
+              "FillColorLower": "0.25248,0.20381,0.03125,1",
+              "FillColorUpper": "0.48515,0.38274,0.09127,1",
+              "FoamThickness": 0.05,
+              "MaxWobble": 0.002,
+              "RimLightStrengthPower": 2.7,
+              "WobbleAmplitude": 0.05,
+              "WobbleFrequency": 4
             }
           ]
         }
@@ -1805,6 +1882,7 @@
     "cinemateam.usherhat",
     "cinemateam.usherjacket",
     "cinemateam.ushertrousers",
+    "sundayservice.cigarettemachine",
     "sundayservice.smoke_cigarette_01"
   ]
 }

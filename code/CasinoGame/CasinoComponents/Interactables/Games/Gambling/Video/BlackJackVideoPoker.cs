@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public class BlackJackMachine : BaseComponent, IInteractable
+public class BlackJackVideoPoker : BaseComponent, IInteractable
 {
 	public void Interact(GameObject player)
 	{

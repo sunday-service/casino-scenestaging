@@ -176,6 +176,22 @@ public class BlackJackTable : BaseComponent, IInteractable
 		};
 	}
 
+	public void Hit(BlackJackPlayer player)
+	{
+		player.PlayerCards.Add( CardDeck.DrawCard( true ) );
+	}
+	
+	public void Stand(BlackJackPlayer player)
+	{
+
+	}
+
+	public override void Update()
+	{
+		base.Update();
+
+	}
+
 	public void DealCards()
 	{
 		ResetGame();
@@ -199,6 +215,23 @@ public class BlackJackTable : BaseComponent, IInteractable
 		foreach(var player in BlackJackPlayers )
 		{
 			foreach(var card in player.PlayerCards)
+			{
+				Log.Info( $"{player.Name} Card: {card.Rank} {card.Suit} {card.IsVisble}" );
+			}
+
+			Log.Info( "" );
+			Log.Info( $"{player.Name} Hand Value: {player.PlayerHand}" );
+			Log.Info( "" );
+		}
+
+		Hit( BlackJackPlayers[1] );
+		Hit( BlackJackPlayers[1] );
+
+		CardDeck.LogDeck();
+
+		foreach ( var player in BlackJackPlayers )
+		{
+			foreach ( var card in player.PlayerCards )
 			{
 				Log.Info( $"{player.Name} Card: {card.Rank} {card.Suit} {card.IsVisble}" );
 			}

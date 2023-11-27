@@ -68,9 +68,7 @@ public partial class SceneNode : TreeNode<Scene>
 
 	public override bool OnContextMenu()
 	{
-		var m = new Menu();
-
-
+		var m = new Menu( TreeView );
 
 		m.AddSeparator();
 
@@ -81,7 +79,7 @@ public partial class SceneNode : TreeNode<Scene>
 			TreeView.SelectItem( go );
 		} );
 
-		m.OpenAtCursor();
+		m.OpenAtCursor( true );
 
 		return true;
 	}

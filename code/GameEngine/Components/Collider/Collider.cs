@@ -37,12 +37,18 @@ public abstract class Collider : BaseComponent, BaseComponent.ExecuteInEditor
 	public override void OnEnabled()
 	{
 		Assert.IsNull( keyframeBody );
-		Assert.AreEqual( 0, shapes.Count );
+		//Assert.AreEqual( 0, shapes.Count );
 		Assert.NotNull( Scene );
 
 		UpdatePhysicsBody();
 		RebuildImmediately();
+
+		GameObject.Tags.OnTagAdded += OnTagsChanged;
+		GameObject.Tags.OnTagRemoved += OnTagsChanged;
 	}
+
+
+
 
 	void UpdatePhysicsBody()
 	{
@@ -76,6 +82,14 @@ public abstract class Collider : BaseComponent, BaseComponent.ExecuteInEditor
 			_collisionEvents = new CollisionEventSystem( keyframeBody );
 
 			Transform.OnTransformChanged += UpdateKeyframeTransform;
+		}
+	}
+
+	private void OnTagsChanged( string obj )
+	{
+		foreach ( var shape in shapes )
+		{
+			shape.Tags.SetFrom( GameObject.Tags );
 		}
 	}
 
@@ -155,13 +169,7 @@ public abstract class Collider : BaseComponent, BaseComponent.ExecuteInEditor
 			shape.IsTrigger = _isTrigger;
 			shape.SurfaceMaterial = Surface?.ResourceName;
 
-			// this sucks, implement ITagSet
-			shape.ClearTags();
-
-			foreach ( var tag in GameObject.Tags.TryGetAll() )
-			{
-				shape.AddTag( tag );
-			}
+			shape.Tags.SetFrom( GameObject.Tags );
 		}
 	}
 
@@ -175,6 +183,9 @@ public abstract class Collider : BaseComponent, BaseComponent.ExecuteInEditor
 		shapes.Clear();
 
 		Transform.OnTransformChanged -= UpdateKeyframeTransform;
+
+		GameObject.Tags.OnTagAdded -= OnTagsChanged;
+		GameObject.Tags.OnTagRemoved -= OnTagsChanged;
 
 		_collisionEvents?.Dispose();
 		_collisionEvents = null;
@@ -218,6 +229,8 @@ public abstract class Collider : BaseComponent, BaseComponent.ExecuteInEditor
 			// if it's shorter, the objects will be punched quicker than the collider is moving
 			// so will tend to over-react to being touched.
 			float timeToArrive = Scene.FixedDelta;
+
+			if ( IsProxy ) timeToArrive *= 2.0f;
 
 			keyframeBody.Move( Transform.World, timeToArrive );
 		}

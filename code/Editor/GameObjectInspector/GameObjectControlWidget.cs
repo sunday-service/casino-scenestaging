@@ -23,13 +23,14 @@ public class GameObjectControlWidget : ControlWidget
 
 	protected override void OnContextMenu( ContextMenuEvent e )
 	{
-		var m = new Menu();
+		var m = new Menu( this );
 
 	//	m.AddOption( "Copy", action: Copy );
 	//	m.AddOption( "Paste", action: Paste );
 		m.AddOption( "Clear", action: Clear );
+		m.OpenAtCursor( true );
 
-		m.OpenAtCursor();
+		e.Accepted = true;
 	}
 
 	protected override void PaintControl()
@@ -98,7 +99,7 @@ public class GameObjectControlWidget : ControlWidget
 	{
 		ev.Action = DropAction.Ignore;
 
-		if ( ev.Data.Object is GameObject go )
+		if ( ev.Data.Object is GameObject or GameObject[] )
 		{
 			ev.Action = DropAction.Link;
 			return;
@@ -121,10 +122,15 @@ public class GameObjectControlWidget : ControlWidget
 
 	public override void OnDragDrop( DragEvent ev )
 	{
-
 		if ( ev.Data.Object is GameObject go )
 		{
 			SerializedProperty.SetValue( go );
+			return;
+		}
+
+		if ( ev.Data.Object is GameObject[] gos )
+		{
+			SerializedProperty.SetValue( gos.FirstOrDefault() );
 			return;
 		}
 

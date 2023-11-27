@@ -1,0 +1,75 @@
+{
+  "GameObjects": [
+    {
+      "Id": "8510a6f7-2b9b-431f-948f-c65a22395e13",
+      "Name": "Screen UI",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__enabled": true,
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        }
+      ],
+      "Children": [
+        {
+          "Id": "7f4c9f0f-2d11-47db-b114-1736ef2c5fcf",
+          "Name": "Scene Menu",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "CasinoMenuPanel",
+              "__enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "590efe1d-c2b8-4c68-a557-b0506cdf6f78",
+      "Name": "Camera",
+      "Position": "1011.863,273.6311,-1540.558",
+      "Rotation": "0.104912,0.06145444,-0.8564602,0.5016899",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "CameraComponent",
+          "__enabled": true,
+          "BackgroundColor": "0.25292,0.26086,0.29703,1",
+          "ClearFlags": "All",
+          "FieldOfView": 85.5,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "ZFar": 2136.4,
+          "ZNear": 1
+        },
+        {
+          "__type": "CameraPhysicsDebug",
+          "__enabled": true,
+          "MaxPoints": 10000,
+          "NormalLength": 2,
+          "TracesPerFrame": 500,
+          "TraceType": "Ray"
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "NetworkFrequency": 60,
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "TimeScale": 1,
+    "ThreadedAnimation": true,
+    "UseFixedUpdate": true
+  },
+  "Title": "Casino Server List Test Menu",
+  "Description": "",
+  "__references": []
+}

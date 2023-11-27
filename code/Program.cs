@@ -1,5 +1,7 @@
 ﻿global using System.Linq;
 global using System;
+global using System.Collections.Generic;
+global using System.Threading.Tasks;
 using Sandbox;
 
 
@@ -13,7 +15,7 @@ public static class Program
 		//
 
 		GameManager.ActiveScene = new Scene();
-		GameManager.ActiveScene.LoadFromFile( "scenes/tests/menu.scene" );
+		GameManager.ActiveScene.LoadFromFile( "scenes/casino/menu.scene" );
 
 		GameManager.IsPlaying = true;
 	}

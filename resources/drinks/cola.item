@@ -1,0 +1,10 @@
+{
+  "Name": "Cola",
+  "Description": "Freshen up with a fizzy cold drink",
+  "Icon": "ui/middlefinger.png",
+  "Worldmodel": "models/gameplay/mega_health/mega_health.vmdl",
+  "Viewmodel": "models/newton_launcher/v_newton_launcher.vmdl",
+  "__references": [
+    "pmg.crazy_eights"
+  ]
+}

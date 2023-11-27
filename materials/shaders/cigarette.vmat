@@ -2,10 +2,10 @@
 
 Layer0
 {
-	shader "shaders/cigarette.shader"
+	shader "shaders/cigarette/cigarette.shader"
 
 	//---- Fog ----
-	g_bFogEnabled "1"
+	g_bFogEnabled "0"
 
 	//---- Material ----
 	g_flTintColor "[1.000000 1.000000 1.000000 0.000000]"
@@ -16,5 +16,5 @@ Layer0
 	TextureNormal "materials/shaders/cigarettes_normal.png"
 	TextureRoughness "materials/shaders/cigarettes_rough.png"
 	TextureTintMask "materials/default/default.tga"
-	TextureTranslucency "[1.000000 1.000000 1.000000 0.000000]"
+	TextureTranslucency "materials/default/default_trans.tga"
 }

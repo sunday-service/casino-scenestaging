@@ -2,11 +2,14 @@
 using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using Sandbox.Utility;
 
 namespace Editor.Inspectors;
 
 
 [CanEdit( typeof(GameObject) )]
+[CanEdit( typeof( PrefabScene ) )]
 public class GameObjectInspector : Widget
 {
 	GameObject TargetObject;
@@ -92,6 +95,18 @@ public class GameObjectInspector : Widget
 		s.OpenAt( source.ScreenRect.BottomLeft, animateOffset: new Vector2( 0, -4 ) );
 		s.FixedWidth = source.Width;
 	}
+
+	protected override void OnContextMenu( ContextMenuEvent e )
+	{
+		if ( Helpers.HasComponentInClipboard() )
+		{
+			var menu = new Menu( this );
+			menu.AddOption( "Paste Component As New", action: () => Helpers.PasteComponentAsNew( TargetObject ) );
+			menu.OpenAtCursor( true );
+		}
+		
+		base.OnContextMenu( e );
+	}
 }
 
 public class ComponentList : Widget
@@ -119,7 +134,7 @@ public class ComponentList : Widget
 
 			var serialized = EditorTypeLibrary.GetSerializedObject( o );
 			serialized.OnPropertyChanged += ( p ) => PropertyEdited( p, o );
-			var sheet = new ComponentSheet( GameObjectId, serialized, () => OpenContextMenu( o ) );
+			var sheet = new ComponentSheet( GameObjectId, serialized, ( x ) => OpenContextMenu( o, x ) );
 			Layout.Add( sheet );
 			Layout.AddSeparator();
 		}
@@ -131,7 +146,7 @@ public class ComponentList : Widget
 		component.EditLog( $"{component}.{property.Name}", component );
 	}
 
-	void OpenContextMenu( BaseComponent component )
+	void OpenContextMenu( BaseComponent component, Vector2? position = null )
 	{
 		var menu = new Menu( this );
 
@@ -156,25 +171,37 @@ public class ComponentList : Widget
 			Rebuild();
 		} ).Enabled = canMoveDown;
 
-		menu.AddOption( "Remove Component", action: () => component.Destroy() );
-		//menu.AddOption( "Copy To Clipboard" );
-		//menu.AddOption( "Paste As New" );
-		//menu.AddOption( "Paste Values" );
+		menu.AddOption( "Remove Component", action: () =>
+		{
+			component.Destroy();
+			SceneEditorSession.Active.Scene.EditLog( "Removed Component", component );
+		} );
+		menu.AddOption( "Copy To Clipboard", action: () => Helpers.CopyComponent( component ) );
+
+		if ( Helpers.HasComponentInClipboard() )
+		{
+			menu.AddOption( "Paste Values", action: () => Helpers.PasteComponentValues( component ) );
+			menu.AddOption( "Paste As New", action: () => Helpers.PasteComponentAsNew( component.GameObject ) );
+		}
+		
 		//menu.AddOption( "Open In Window.." );
 		menu.AddSeparator();
 
 		var t = EditorTypeLibrary.GetType( component.GetType() );
 		if ( t.SourceFile is not null )
 		{
-			Log.Info( component.GetType() );
-			Log.Info( t.FullName );
-			Log.Info( t.SourceFile );
-
 			var filename = System.IO.Path.GetFileName( t.SourceFile );
 			menu.AddOption( $"Open {filename}..", action: () => CodeEditor.OpenFile( t.SourceFile, t.SourceLine ) );
 		}
 
-		menu.OpenAtCursor();
+		if ( position != null )
+		{
+			menu.OpenAt( position.Value, true );
+		}
+		else
+		{
+			menu.OpenAtCursor( true );
+		}
 
 	}
 

@@ -9,6 +9,14 @@ public partial class GameObjectNode : TreeNode<GameObject>
 		Height = 17;
 	}
 
+	public override string Name
+	{
+		get => Value.Name;
+		set => Value.Name = value;
+	}
+
+	public override bool CanEdit => true;
+
 	public override bool HasChildren
 	{
 		get
@@ -31,6 +39,10 @@ public partial class GameObjectNode : TreeNode<GameObject>
 			hc.Add( Value.Name );
 			hc.Add( Value.IsPrefabInstance );
 			hc.Add( Value.Flags );
+			hc.Add( Value.Networked );
+			hc.Add( Value.Network.IsOwner );
+			hc.Add( Value.IsProxy );
+			hc.Add( Value.Active );
 
 			foreach ( var val in Value.Children )
 			{
@@ -46,6 +58,7 @@ public partial class GameObjectNode : TreeNode<GameObject>
 		var selected = item.Selected || item.Pressed || item.Dragging;
 		var isBone = Value.Flags.HasFlag( GameObjectFlags.Bone );
 		var isAttachment = Value.Flags.HasFlag( GameObjectFlags.Attachment );
+		var isNetworked = Value.Networked;
 
 		var fullSpanRect = item.Rect;
 		fullSpanRect.Left = 0;
@@ -79,12 +92,35 @@ public partial class GameObjectNode : TreeNode<GameObject>
 			iconColor = Theme.Pink.WithAlpha( 0.8f );
 		}
 
+		if ( isNetworked )
+		{
+			icon = "rss_feed";
+			iconColor = Theme.Blue.WithAlpha( 0.8f );
+
+			if ( Value.Network.IsOwner )
+			{
+				iconColor = Theme.Green.WithAlpha( 0.8f );
+			}
+
+			if ( Value.IsProxy )
+			{
+				iconColor = Theme.ControlText.WithAlpha( 0.6f );
+			}
+		}
+
 		//
 		// If there's a drag and drop happening, fade out nodes that aren't possible
 		//
-		if ( TreeView.IsBeingDroppedOn && (TreeView.CurrentItemDragEvent.Data.Object is GameObject go && Value.IsAncestor( go )) )
+		if ( TreeView.IsBeingDroppedOn )
 		{
-			opacity *= 0.23f;
+			if ( TreeView.CurrentItemDragEvent.Data.Object is GameObject[] gos && gos.Any( go => Value.IsAncestor( go ) ) )
+			{
+				opacity *= 0.23f;
+			}
+			else if ( TreeView.CurrentItemDragEvent.Data.Object is GameObject go && Value.IsAncestor( go ) )
+			{
+				opacity *= 0.23f;
+			}
 		}
 
 		if ( item.Dropping )
@@ -132,13 +168,24 @@ public partial class GameObjectNode : TreeNode<GameObject>
 
 		Paint.SetPen( pen.WithAlphaMultiplied( opacity ) );
 		Paint.SetDefaultFont();
-		Paint.DrawText( r, name, TextFlag.LeftCenter );
+		r.Left += Paint.DrawText( r, name, TextFlag.LeftCenter ).Width;
 	}
 
 	public override bool OnDragStart()
 	{
 		var drag = new Drag( TreeView );
-		drag.Data.Object = Value;
+		
+		if ( TreeView.IsSelected( Value ) )
+		{
+			// If we're selected then use all selected items in the tree.
+			drag.Data.Object = TreeView.SelectedItems.OfType<GameObject>().ToArray();
+		}
+		else
+		{
+			// Otherwise let's just drag this one.
+			drag.Data.Object = new[] { Value };
+		}
+		
 		drag.Execute();
 
 		return true;
@@ -148,25 +195,29 @@ public partial class GameObjectNode : TreeNode<GameObject>
 	{
 		using var scope = Value.Scene.Push();
 
-		if ( e.Data.Object is GameObject go )
+		if ( e.Data.Object is GameObject[] gos )
 		{
-			// can't parent to an ancesor
-			if ( go == Value || Value.IsAncestor( go ) )
-				return DropAction.Ignore;
-
-			if ( e.IsDrop )
+			if ( gos.Any( go => go == Value || Value.IsAncestor( go ) ) )
 			{
-				if ( e.DropEdge.HasFlag( ItemEdge.Top ) )
+				return DropAction.Ignore;
+			}
+			
+			foreach ( var go in gos )
+			{
+				if ( e.IsDrop )
 				{
-					Value.AddSibling( go, true );
-				}
-				else if ( e.DropEdge.HasFlag( ItemEdge.Bottom ) )
-				{
-					Value.AddSibling( go, false );
-				}
-				else
-				{
-					go.SetParent( Value, true );
+					if ( e.DropEdge.HasFlag( ItemEdge.Top ) )
+					{
+						Value.AddSibling( go, true );
+					}
+					else if ( e.DropEdge.HasFlag( ItemEdge.Bottom ) )
+					{
+						Value.AddSibling( go, false );
+					}
+					else
+					{
+						go.SetParent( Value, true );
+					}
 				}
 			}
 
@@ -207,11 +258,11 @@ public partial class GameObjectNode : TreeNode<GameObject>
 
 	public override bool OnContextMenu()
 	{
-		var m = new Menu();
+		var m = new Menu( TreeView );
 
 		AddGameObjectMenuItems( m );
 
-		m.OpenAtCursor();
+		m.OpenAtCursor( true );
 
 		return true;
 	}
@@ -232,6 +283,12 @@ public partial class GameObjectNode : TreeNode<GameObject>
 		CreateObjectMenu( m, go =>
 		{
 			go.Parent = Value;
+
+			if ( Value is not Scene )
+			{
+				go.Transform.Local = Transform.Zero;
+			}
+
 			TreeView.Open( this );
 			TreeView.SelectItem( go );
 		} );
@@ -300,142 +357,40 @@ public partial class GameObjectNode : TreeNode<GameObject>
 
 	public static void CreateObjectMenu( Menu menu, Action<GameObject> then )
 	{
+		var prefabs = AssetSystem.All.Where( x => x.AssetType.FileExtension == PrefabFile.FileExtension )
+						.Where( x => x.RelativePath.StartsWith( "templates/gameobject/" ) )
+						.Select( x => x.LoadResource<PrefabFile>() )
+						.Where( x => x.ShowInMenu )
+						.OrderByDescending( x => x.MenuPath.Count( x => x == '/' ) )
+						.ThenBy( x => x.MenuPath )
+						.ToArray();
+
+		Vector3 pos = SceneEditorSession.Active.CameraPosition + SceneEditorSession.Active.CameraRotation.Forward * 300;
+
+		// I wonder if we should be tracing and placing it on the surface?
+
 		menu.AddOption( "Create Empty", "dataset", () =>
 		{
 			using var scope = SceneEditorSession.Scope();
 			var go = new GameObject( true, "Object" );
+			go.Transform.Local = new Transform( pos );
 			then( go );
 		} );
 
-		// 3d obj
+		foreach ( var entry in prefabs )
 		{
-			var submenu = menu.AddMenu( "3D Object", "dataset" );
-
-			submenu.AddOption( "Cube", "category", () =>
+			menu.AddOption( entry.MenuPath.Split( '/' ), entry.MenuIcon, () =>
 			{
 				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Cube";
-
-				var model = go.AddComponent<ModelComponent>();
-				model.Model = Model.Load( "models/dev/box.vmdl" );
-
+				var go = SceneUtility.Instantiate( entry.Scene, Transform.Zero );
+				go.BreakFromPrefab();
+				go.Name = entry.MenuPath.Split( '/' ).Last();
+				go.Transform.Local = new Transform( pos );
 				then( go );
 			} );
-
-			submenu.AddOption( "Sphere", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Sphere";
-
-				var model = go.AddComponent<ModelComponent>();
-				model.Model = Model.Load( "models/dev/sphere.vmdl" );
-
-				then( go );
-			} );
-
-
-			submenu.AddOption( "Plane", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Plane";
-
-				var model = go.AddComponent<ModelComponent>();
-				model.Model = Model.Load( "models/dev/plane.vmdl" );
-
-				then( go );
-			} );
-		}
-
-		// light
-		{
-			var submenu = menu.AddMenu( "Light", "light_mode" );
-
-			submenu.AddOption( "Directional Light", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Directional Light";
-				go.Transform.Rotation = Rotation.LookAt( Vector3.Down + Vector3.Right * 0.25f );
-				go.AddComponent<DirectionalLightComponent>();
-
-				then( go );
-			} );
-
-			submenu.AddOption( "Point Light", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Point Light";
-				go.AddComponent<PointLightComponent>();
-
-				then( go );
-			} );
-
-
-			submenu.AddOption( "Spot Light", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Spot Light";
-				go.AddComponent<SpotLightComponent>();
-
-				then( go );
-			} );
-
-			submenu.AddSeparator();
-
-			submenu.AddOption( "2D SkyBox", "category", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "SkyBox";
-
-				go.AddComponent<SkyBox2D>();
-
-				then( go );
-			} );
-		}
-
-		// UI
-		{
-			var submenu = menu.AddMenu( "UI", "desktop_windows" );
-
-			submenu.AddOption( "World UI", "panorama_horizontal", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "World UI";
-				go.AddComponent<WorldPanel>();
-				then( go );
-			} );
-
-			submenu.AddOption( "Screen UI", "desktop_windows", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Screen UI";
-				go.AddComponent<ScreenPanel>();
-
-				then( go );
-			} );
-		}
-
-		{
-			menu.AddOption( "Camera", "videocam", () =>
-			{
-				using var scope = SceneEditorSession.Scope();
-				var go = new GameObject();
-				go.Name = "Camera";
-
-				var cam = go.AddComponent<CameraComponent>();
-
-				then( go );
-			} );
-
 		}
 	}
+
+
 }
 

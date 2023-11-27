@@ -7,6 +7,9 @@ public sealed class IkDrink : BaseComponent
 
 	public override void Update()
 	{
+		if ( IsProxy )
+			return;
+
 		if ( Input.Down( "Attack2" ) )
 		{
 			if ( Consumable.GetComponent<LiquidComponent>( true, true ) is LiquidComponent component )
@@ -39,4 +42,5 @@ public sealed class IkDrink : BaseComponent
 			Hand.Transform.LerpTo( fromTransform, 0.35f );
 		}
 	}
+	
 }

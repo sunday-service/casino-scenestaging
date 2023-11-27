@@ -7,6 +7,9 @@ public sealed class IkSmoke : BaseComponent
 
 	public override void Update()
 	{
+		if ( IsProxy )
+			return;
+		
 		if ( Input.Down( "Attack1" ) )
 		{
 			if ( Consumable.GetComponent<CigaretteComponent>( true, true ) is CigaretteComponent component )

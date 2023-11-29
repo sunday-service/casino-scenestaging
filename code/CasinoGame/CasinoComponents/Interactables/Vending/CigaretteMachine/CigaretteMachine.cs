@@ -9,7 +9,7 @@ public class CigaretteMachine : BaseComponent, IInteractable
 	{
 		if(player.Components.Get<PlayerMoney>() is PlayerMoney money) 
 		{
-			Log.Info( "Buying Cigarettes" );
+			NotificationFeed.Instance.PushNotification( $"Buying cigarettes for {CigaretteCost}", 0 );
 
 			money.TakeMoney( CigaretteCost );
 		}

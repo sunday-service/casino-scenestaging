@@ -9,7 +9,7 @@ public class ArcadeMachine : BaseComponent, IInteractable
 	{
 		if(player.Components.Get<PlayerMoney>() is PlayerMoney money) 
 		{
-			Log.Info( "Putting money into the arcade machine..." );
+			NotificationFeed.Instance.PushNotification( $"Spending {ArcadeCost} on arcade machine", 0 );
 			money.TakeMoney( ArcadeCost );
 		}
 		

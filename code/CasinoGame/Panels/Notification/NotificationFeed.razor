@@ -1,0 +1,17 @@
+﻿﻿@using Sandbox;
+@using Sandbox.UI;
+
+@namespace Casino
+@inherits PanelComponent
+@attribute [StyleSheet]
+
+<root>
+    <div class="feed">
+        @foreach (var notification in Notifications)
+        {
+            <div class="card">@notification.message</div>
+        }
+    </div>
+</root>
+
+

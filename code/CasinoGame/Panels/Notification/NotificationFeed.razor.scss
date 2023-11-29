@@ -1,0 +1,41 @@
+﻿NotificationFeed {
+    position: absolute;
+    top: 128px;
+    right: 128px;
+    height: 512px;
+
+    .feed {
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 16px;
+
+        .card {
+            
+            background-color: #0004;
+            border-radius: 3px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bolder;
+            font-size: 16px;
+            font-family: poppins;
+            backdrop-filter: blur( 20px );
+            padding-top: 8px;
+            opacity: 0.5;
+
+            transition: all 1s ease-out;
+
+            &:intro {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            &:outro {
+                opacity: 0;
+                transform: translateX(100%);
+                transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            }
+        }
+    }
+}

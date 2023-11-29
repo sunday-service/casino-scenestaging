@@ -5,14 +5,14 @@ public sealed class IkSmoke : BaseComponent
 	[Property] public GameObject Hand { get; set; }
 	[Property] public GameObject Consumable { get; set; }
 
-	public override void Update()
+	protected override void OnUpdate()
 	{
 		if ( IsProxy )
 			return;
 		
 		if ( Input.Down( "Attack1" ) )
 		{
-			if ( Consumable.GetComponent<CigaretteComponent>( true, true ) is CigaretteComponent component )
+			if ( Consumable.Components.Get<CigaretteComponent>(FindMode.EverythingInSelfAndDescendants) is CigaretteComponent component )
 			{
 				component.AmountSmoked = component.AmountSmoked > 0.69 ? 0 : component.AmountSmoked + MathX.Clamp( 0.001f, 0, 1 );
 			}

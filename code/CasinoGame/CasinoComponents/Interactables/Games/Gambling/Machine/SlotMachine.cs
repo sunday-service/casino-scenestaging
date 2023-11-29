@@ -2,17 +2,20 @@
 
 namespace Casino;
 
-public class SlotMachine : BaseComponent, IInteractable
+public class SlotMachine : BaseComponent, IInteractable, INetworkSerializable
 {
 	public enum ReelSymbol
 	{
 		CHERRY = 0,
-		LEMON = 1,
-		ORANGE = 2,
-		PLUM = 3,
-		BELL = 4, 
-		BAR = 5,
-		SEVEN = 6
+		GRAPE = 1,
+		LEMON = 2,
+		SPADE = 3,
+		SPIDER = 4,
+		BELL = 5,
+		ONEBAR = 6,
+		TWOBAR = 7,
+		THREEBAR = 8,
+		SEVEN = 9
 	}
 
 	[Property] public int NumberOfReels {get; set;} = 3;
@@ -26,11 +29,15 @@ public class SlotMachine : BaseComponent, IInteractable
 		return symbol switch
 		{
 			ReelSymbol.CHERRY => 8,
-			ReelSymbol.ORANGE => 16,
-			ReelSymbol.PLUM => 32,
-			ReelSymbol.BELL => 64,
-			ReelSymbol.BAR => 128,
-			ReelSymbol.SEVEN => 1024,
+			ReelSymbol.GRAPE => 16,
+			ReelSymbol.LEMON => 32,
+			ReelSymbol.SPADE => 64,
+			ReelSymbol.SPIDER => 128,
+			ReelSymbol.BELL => 256,
+			ReelSymbol.ONEBAR => 512,
+			ReelSymbol.TWOBAR => 1024,
+			ReelSymbol.THREEBAR => 2048,
+			ReelSymbol.SEVEN => 4096,
 
 			_ => 0
 		};
@@ -54,13 +61,43 @@ public class SlotMachine : BaseComponent, IInteractable
 		return results.Distinct().Count() == 1;
 	}
 
+	private async void ReelOneSpin()
+	{
+		await GameTask.RunInThreadAsync( ReelOneSpinTask );
+
+
+		Log.Info( $"Reel One Spin Finished" );
+
+		await GameTask.RunInThreadAsync( ReelTwoSpinTask );
+
+		Log.Info( $"Reel Two` Spin Finished" );
+	}
+
+	private async Task ReelOneSpinTask()
+	{
+		await GameTask.Delay( 1000 );
+
+		Log.Info( "spinning" );
+	}
+
+	private async Task ReelTwoSpinTask()
+	{
+		await GameTask.Delay( 1500 );
+	}
+
+	private async Task ReelThreeSpinTask()
+	{
+		await GameTask.Delay( 1500 );
+	}
+
 	public void Play(GameObject player) 
 	{
-		if ( player.GetComponent<PlayerMoney>( true, true ) is PlayerMoney playerMoney)
+		if ( player.Components.Get<PlayerMoney>( FindMode.InSelf ) is PlayerMoney playerMoney)
 		{
 			if(playerMoney.CurrentMoney < Bet)
 			{
-				Log.Info( $"{player.Name} doesn't have enough credits to play" );
+				NotificationFeed.Instance.PushNotification( "Not enough credits to play the slots", 0 );
+
 				return;
 			}
 
@@ -79,14 +116,20 @@ public class SlotMachine : BaseComponent, IInteractable
 
 				Log.Info( $"{player} wins {payout}" );
 
+				NotificationFeed.Instance.PushNotification( $"Won {payout} credits", 0 );
+
 				playerMoney.GiveMoney(payout );
 			}
 			else
 			{
 				Log.Info( $"{player} loses {Bet}" );
 
+				NotificationFeed.Instance.PushNotification( $"Lost {Bet} credits", 0 );
+
 				playerMoney.TakeMoney( Bet );
 			}
+
+			ReelOneSpin();
 		}
 	}
 
@@ -95,5 +138,15 @@ public class SlotMachine : BaseComponent, IInteractable
 		Log.Info( "Playing some slots" );
 
 		Play(player);
+	}
+
+	public void Write( ref ByteStream stream )
+	{
+		
+	}
+
+	public void Read( ByteStream stream )
+	{
+		
 	}
 }

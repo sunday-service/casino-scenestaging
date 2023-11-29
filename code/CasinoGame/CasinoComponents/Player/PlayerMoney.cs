@@ -8,7 +8,7 @@ public partial class PlayerMoney : BaseComponent
 	public Action OnMoneyTaken { get; set; }
 	public Action OnMoneyException { get; set; }
 
-	public override void OnAwake()
+	protected override void OnAwake()
 	{
 		base.OnAwake();
 

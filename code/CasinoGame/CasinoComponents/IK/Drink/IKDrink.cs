@@ -5,14 +5,14 @@ public sealed class IkDrink : BaseComponent
 	[Property] public GameObject Hand { get; set; }
 	[Property] public GameObject Consumable { get; set;}
 
-	public override void Update()
+	protected override void OnUpdate()
 	{
 		if ( IsProxy )
 			return;
 
 		if ( Input.Down( "Attack2" ) )
 		{
-			if ( Consumable.GetComponent<LiquidComponent>( true, true ) is LiquidComponent component )
+			if ( Consumable.Components.Get<LiquidComponent>(FindMode.EverythingInSelfAndDescendants) is LiquidComponent component )
 			{
 				component.FillAmount = component.FillAmount < 0 ? 0.8f : component.FillAmount - MathX.Clamp( 0.001f, 0, 1 );
 			}

@@ -22,9 +22,9 @@ public partial class NotificationFeed : PanelComponent
 		StateHasChanged();
 	}
 
-	public override void Update()
+	protected override void OnUpdate()
 	{
-		base.Update();
+		base.OnUpdate();
 
 		if ( IsProxy )
 			return;

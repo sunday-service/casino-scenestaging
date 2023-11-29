@@ -17,12 +17,12 @@ public sealed class CigaretteComponent : BaseComponent, BaseComponent.ExecuteInE
 	{
 		base.OnPreRender();
 
-		if ( GameObject.GetComponent<ModelComponent>() is ModelComponent model )
+		if ( GameObject.Components.Get<ModelRenderer>() is ModelRenderer model )
 		{
 			RenderModel( model.SceneObject, 0 );
 			//RenderModel( model.SceneObject, 1 );
 
-			var smoke = model.GetComponent<ParticleSystem>( true, true );
+			var smoke = model.Components.Get<ParticleSystem>( FindMode.EnabledInSelfAndDescendants );
 			smoke.Transform.LocalPosition = smoke.Transform.LocalPosition.WithZ( 12 * (1 - AmountSmoked) );
 		}
 	}

@@ -2,7 +2,7 @@ using Sandbox;
 
 public sealed class ReturnToCasinoMenu : BaseComponent
 {
-	public override void Update()
+	protected override void OnUpdate()
 	{
 		if ( Input.EscapePressed )
 		{

@@ -15,9 +15,9 @@ public class InteractorComponent : BaseComponent
 	
 	PhysicsTraceBuilder TraceRay( Vector3 from, Vector3 to ) => Scene.PhysicsWorld.Trace.Ray( from, to );
 
-	public override void Update()
+	protected override void OnUpdate()
 	{
-		if ( Player.GetComponent<CasinoPlayerController>() is CasinoPlayerController controller )
+		if ( Player.Components.Get<CasinoPlayerController>() is CasinoPlayerController controller )
 		{
 			if ( Input.Pressed( "Use" ) )
 			{
@@ -27,7 +27,7 @@ public class InteractorComponent : BaseComponent
 
 				if ( ray.Hit && ray.Body.GameObject is GameObject interacted )
 				{
-					if ( interacted.TryGetComponent( out IInteractable interactableObj ) )
+					if ( interacted.Components.TryGet( out IInteractable interactableObj ) )
 					{
 						interactableObj.Interact(Player);
 					}

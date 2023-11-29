@@ -57,13 +57,13 @@
         GameManager.ActiveScene.Load( file );
 
         var go = new GameObject( true, "Return To Menu" );
-        go.AddComponent<ReturnToMenu>();
+        go.Components.Create<ReturnToMenu>();
     }
 
     bool refreshing;
     List<LobbyInformation> list = new();
 
-    public override void OnEnabled()
+    protected override void OnEnabled()
     {
         base.OnEnabled();
 

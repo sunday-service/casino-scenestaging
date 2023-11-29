@@ -28,7 +28,7 @@ public sealed class LiquidComponent : BaseComponent, BaseComponent.ExecuteInEdit
 	{
 		base.OnPreRender();
 
-		if ( GameObject.GetComponent<ModelComponent>().SceneObject is SceneObject model )
+		if ( GameObject.Components.Get<ModelRenderer>().SceneObject is SceneObject model )
 		{
 			BobTime += Time.Delta;
 

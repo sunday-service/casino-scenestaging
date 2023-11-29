@@ -155,10 +155,12 @@ public class BlackJackTable : BaseComponent, IInteractable
 
 	public void Interact( GameObject player )
 	{
+		/*
 		if(PlayerFacingCard.GetComponent<ModelComponent>() is ModelComponent component)
 		{
 			component.MaterialOverride = component.Model.GetMaterials( 1 ).ToList()[0];
 		}
+		*/
 
 		Log.Info( "Interacting with Black Jack Table" );
 
@@ -186,9 +188,9 @@ public class BlackJackTable : BaseComponent, IInteractable
 
 	}
 
-	public override void Update()
+	protected override void OnUpdate()
 	{
-		base.Update();
+		base.OnUpdate();
 
 	}
 

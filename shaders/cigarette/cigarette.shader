@@ -103,8 +103,8 @@ PS
 		Material m = Material::From( i );
 
 		m.Albedo = lerp(float3(1,0,0), m.Albedo, isFrontFace);
-		m.Normal = NormalWorldToTangent(g_vDirection, m.GeometricNormal, m.WorldTangentU, m.WorldTangentV);
-
+		m.Normal = lerp(NormalWorldToTangent(g_vDirection, m.GeometricNormal, m.WorldTangentU, m.WorldTangentV), m.Normal, isFrontFace);
+		m.Emission = lerp(float3(1,0,0), float3(0,0,0), isFrontFace);
 		clip(BurnLevelMask(i) > 0 ? 1 : -1);
 		
         return ShadingModelStandard::Shade( i, m );

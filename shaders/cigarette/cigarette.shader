@@ -42,6 +42,8 @@ struct PixelInput
 {
     #include "common/pixelinput.hlsl"
 
+	
+
 	float3 vBurnLevel : POSITION < Semantic( PosXyz ); >;
 };
 
@@ -101,14 +103,10 @@ PS
 		Material m = Material::From( i );
 
 		m.Albedo = lerp(float3(1,0,0), m.Albedo, isFrontFace);
-		
-		m.Metalness = lerp(0, m.Metalness, isFrontFace);
-		m.Roughness = lerp(0, m.Roughness, isFrontFace);
-		m.AmbientOcclusion = m.AmbientOcclusion * isFrontFace;
-		m.Normal = normalize(lerp(NormalWorldToTangent(i, i.vNormalWs), m.Normal, isFrontFace));
+		m.Normal = NormalWorldToTangent(g_vDirection, m.GeometricNormal, m.WorldTangentU, m.WorldTangentV);
 
 		clip(BurnLevelMask(i) > 0 ? 1 : -1);
-
+		
         return ShadingModelStandard::Shade( i, m );
     }
 }

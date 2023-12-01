@@ -43,12 +43,13 @@ public partial class Scene : GameObject
 
 	float TimeNow = 0.0f;
 	float TimeDelta = 0.1f;
+	int Tick = 0;
 
 	public void EditorTick()
 	{
 		TimeNow = RealTime.Now;
 		TimeDelta = RealTime.Delta;
-		using var timeScope = Time.Scope( TimeNow, TimeDelta, tick );
+		using var timeScope = Time.Scope( TimeNow, TimeDelta, Tick );
 
 		ProcessDeletes();
 		PreRender();
@@ -61,7 +62,7 @@ public partial class Scene : GameObject
 		if ( IsEditor )
 		{
 			Update();
-			Signal( SceneHook.Stage.UpdateBones );
+			Signal( GameObjectSystem.Stage.UpdateBones );
 		}
 
 		ProcessDeletes();
@@ -71,10 +72,13 @@ public partial class Scene : GameObject
 	{
 		gizmoInstance.Input.Camera = Sandbox.Camera.Main;
 
+		// default sound listener, it might get overriden anyway
+		Sound.Listener = new ( Sandbox.Camera.Main.Position, Sandbox.Camera.Main.Rotation );
+
 		TimeDelta = Time.Delta * TimeScale;
 		TimeNow += TimeDelta;
 
-		using var timeScope = Time.Scope( TimeNow, TimeDelta, tick );
+		using var timeScope = Time.Scope( TimeNow, TimeDelta, Tick );
 
 		using ( gizmoInstance.Push() )
 		{
@@ -101,22 +105,20 @@ public partial class Scene : GameObject
 			SceneNetworkUpdate();
 
 			Update();
-			Signal( SceneHook.Stage.UpdateBones );
+			Signal( GameObjectSystem.Stage.UpdateBones );
 
 			ProcessDeletes();
 		}
 	}
 
 
-	int tick;
-
 	protected override void FixedUpdate()
 	{
-		tick++;
+		Tick++;
 
 		using ( Sandbox.Utility.Superluminal.Scope( "Scene.FixedUpdate", Color.Cyan ) )
 		{
-			Signal( SceneHook.Stage.PhysicsStep );
+			Signal( GameObjectSystem.Stage.PhysicsStep );
 
 
 

@@ -1,21 +1,15 @@
 {
   "RootObject": {
     "Id": "3a73966d-18b3-48d6-b133-ecdd2fd39c32",
-    "Name": "Default Environment",
+    "Name": "default_environment",
     "Enabled": true,
-    "Position": "0,0,0",
-    "Rotation": "0,0,0,1",
-    "Scale": "1,1,1",
-    "Tags": "",
     "Children": [
       {
         "Id": "d295f17a-3dbc-42c8-a6ad-c3006d5f2f01",
         "Name": "Directional Light",
-        "Enabled": true,
         "Position": "0,0,128",
         "Rotation": "0.8894004,0.1914825,-0.4057941,0.087365",
-        "Scale": "1,1,1",
-        "Tags": "",
+        "Enabled": true,
         "Components": [
           {
             "__type": "DirectionalLightComponent",
@@ -30,10 +24,6 @@
         "Id": "52358567-a686-4fc1-b999-24402ab81620",
         "Name": "SkyBox",
         "Enabled": true,
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
         "Components": [
           {
             "__type": "SkyBox2D",
@@ -57,41 +47,37 @@
       {
         "Id": "042d7d7a-0285-4231-a6f0-94a2fc37168b",
         "Name": "Gradient Fog",
-        "Enabled": true,
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": ""
+        "Enabled": true
       },
       {
         "Id": "214d00b9-1f98-4c2a-8fde-04fe01fd5af4",
         "Name": "Surface",
-        "Enabled": true,
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
         "Scale": "20,20,20",
-        "Tags": "",
+        "Enabled": true,
         "Components": [
           {
-            "__type": "ModelComponent",
+            "__type": "ModelRenderer",
             "__enabled": true,
             "BodyGroups": 18446744073709551615,
-            "MaterialOverride": "materials/shine.vmat",
-            "Model": "models/dev/plane.vmdl",
+            "MaterialOverride": null,
+            "Model": "models/maps/devbox_thing1.vmdl",
             "ShouldCastShadows": true,
-            "Tint": "0.05882,0.13725,0.49412,1"
+            "Tint": "0.47525,0.47525,0.47525,1"
           },
           {
-            "__type": "ColliderBoxComponent",
+            "__type": "ModelCollider",
             "__enabled": true,
             "IsTrigger": false,
-            "Scale": "100,100,0.01",
-            "Static": false,
+            "Model": "models/maps/devbox_thing1.vmdl",
+            "Static": true,
             "Surface": null
           }
         ]
       }
     ]
   },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
   "__references": []
 }

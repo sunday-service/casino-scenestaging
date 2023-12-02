@@ -728,7 +728,7 @@
                                                                       "__type": "ParticleSystem",
                                                                       "__enabled": true,
                                                                       "Looped": true,
-                                                                      "Particles": "particles/smoke_cigarette_01.vpcf",
+                                                                      "Particles": "particles/cigarette/smoke_cigarette_01.vpcf",
                                                                       "PlaybackSpeed": 1
                                                                     }
                                                                   ]
@@ -1364,6 +1364,63 @@
           ]
         }
       ]
+    },
+    {
+      "Id": "144a0f66-7e11-4f3d-9d90-02f18f839356",
+      "Name": "Arcade Machine",
+      "Position": "-991.5701,-155.0795,-383",
+      "Scale": "0.5,0.5,0.5",
+      "Tags": "interactable",
+      "Enabled": true,
+      "__Prefab": "prefabs/interactables/machines/arcade/arcade_machine.object"
+    },
+    {
+      "Id": "ef25bb52-9485-471d-a1b7-66345d3fef57",
+      "Name": "victorian_table",
+      "Position": "-807.3439,-316.3057,-384",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "ModelRenderer",
+          "__enabled": true,
+          "BodyGroups": 18446744073709551615,
+          "MaterialOverride": null,
+          "Model": "models/items/victorian_set/victorian_table.vmdl",
+          "ShouldCastShadows": true,
+          "Tint": "1,1,1,1"
+        }
+      ]
+    },
+    {
+      "Id": "d0ce68c6-252a-407f-bfd5-6f6c27a0885b",
+      "Name": "Service Bell",
+      "Position": "-791.0101,-317.0673,-353.1203",
+      "Tags": "interactable",
+      "Networked": true,
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "ModelRenderer",
+          "__enabled": true,
+          "BodyGroups": 18446744073709551615,
+          "MaterialOverride": null,
+          "Model": "models/servicebell/servicebell.vmdl",
+          "ShouldCastShadows": true,
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "ServiceBellComponent",
+          "__enabled": true
+        },
+        {
+          "__type": "ColliderSphereComponent",
+          "__enabled": true,
+          "IsTrigger": false,
+          "Radius": 5.7000017,
+          "Static": true,
+          "Surface": null
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -1377,5 +1434,8 @@
   },
   "Title": "Networking",
   "Description": "Automatically creates a server joinable by others",
-  "__references": []
+  "__references": [
+    "luke.victorian_table",
+    "sundayservice.smoke_cigarette_01"
+  ]
 }

@@ -6,19 +6,116 @@
 		children = 
 		[
 			{
+				_class = "WeightListList"
+				children = 
+				[
+					{
+						_class = "WeightList"
+						name = "slot_arm"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "barrel_l"
+								weight = 0.0
+							},
+							{
+								bone = "barrel_m"
+								weight = 0.0
+							},
+							{
+								bone = "barrel_r"
+								weight = 0.0
+							},
+							{
+								bone = "coinslot"
+								weight = 0.0
+							},
+							{
+								bone = "slot_arm"
+								weight = 1.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+					{
+						_class = "WeightList"
+						name = "barrel_1"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "barrel_l"
+								weight = 0.0
+							},
+							{
+								bone = "barrel_m"
+								weight = 1.0
+							},
+							{
+								bone = "barrel_r"
+								weight = 0.0
+							},
+							{
+								bone = "coinslot"
+								weight = 0.0
+							},
+							{
+								bone = "slot_arm"
+								weight = 0.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+					{
+						_class = "WeightList"
+						name = "barrel_2"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "barrel_l"
+								weight = 0.0
+							},
+							{
+								bone = "barrel_m"
+								weight = 0.0
+							},
+							{
+								bone = "barrel_r"
+								weight = 1.0
+							},
+							{
+								bone = "coinslot"
+								weight = 0.0
+							},
+							{
+								bone = "slot_arm"
+								weight = 0.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+				]
+			},
+			{
 				_class = "MaterialGroupList"
 				children = 
 				[
 					{
 						_class = "DefaultMaterialGroup"
+						note = "Type note..."
 						remaps = 
 						[
 							{
-								from = "slotmachine_01_drums_mat.vmat"
+								from = "slotmachine_01_drums_mat.006.vmat"
 								to = "models/materials/slotmachine_01_drums.vmat"
 							},
 							{
-								from = "slotmachine_01_mat.vmat"
+								from = "slotmachine_01_mat.006.vmat"
 								to = "models/materials/slotmachine_01.vmat"
 							},
 						]
@@ -33,7 +130,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/slotmachine/slotmachine_01.fbx"
+						filename = "models/slotmachine/slotmachine.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -60,10 +157,122 @@
 					},
 				]
 			},
+			{
+				_class = "AnimationList"
+				note = "0.08 = 7\n0.13 = fruit\n0.20 = Lemon\n0.26 = fruit\n0.33 = spider\n0.39 = fruit\n0.45 = lemon\n0.51 = Berry\n0.57 = Lemon\n0.64 = Berry\n0.51 = Berry\n0.71 = Ace\n0.76 = Blackberry\n0.83 = BAR X1\n0.90 = BAR X2\n0.96 = BAR X3\n1.00 = Avoid!\n\n"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "barrel_l_rotate"
+						note = "7 = Bell\n29 = 7\n50 = Fruit\n74 = Lemon\n95 = Fruit\n117 = Spider\n138 = Fruit\n162 = Lemon\n186 = Berry\n208 = Lemon\n232 = Berry\n255 = Ace\n276 = Blackberry\n300 = BAR X1\n324 = BAR X2\n344 = BAR X3\n1.00 = Avoid!\n\n"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						enable_scale = false
+						source_filename = "models/slotmachine/slotmachine.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 100.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "barrel_m_rotate"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						enable_scale = false
+						source_filename = "models/slotmachine/slotmachine.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 100.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "barrel_r_rotate"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						enable_scale = false
+						source_filename = "models/slotmachine/slotmachine.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 100.0
+						take = 2
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "handle_pull"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						enable_scale = false
+						source_filename = "models/slotmachine/slotmachine.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 35.0
+						take = 3
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ 1.805211, -0.253105, 50.918537 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 52.178082, 56.439453, 111.837074 ]
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "animgraphs/slotmachine_01.vanmgrph"
 		base_model_name = ""
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public class SlotMachine : BaseComponent, IInteractable, INetworkSerializable
+public class SlotMachine : BaseComponent, IInteractable
 {
 	public enum ReelSymbol
 	{
@@ -18,135 +18,120 @@ public class SlotMachine : BaseComponent, IInteractable, INetworkSerializable
 		SEVEN = 9
 	}
 
-	[Property] public int NumberOfReels {get; set;} = 3;
-	[Property] public int Bet {get; set;} = 5;
-	[Property] public int MaxReelTime {get; set;} = 5;
+	[Property, Group("Betting")] public int Bet { get; set; } = 5;
 
-	public int NumberOfSymbols => Enum.GetValues(typeof(ReelSymbol)).Length;
+	private int NumberOfReels = 3;
+	private int NumberOfSymbols => Enum.GetValues<ReelSymbol>().Length;
 
-	public int GetPayout( ReelSymbol symbol )
+	private SlotMachineGame MiniGame = new SlotMachineGame();
+	private GameObject Player { get; set; }
+
+	Dictionary<ReelSymbol, int> Payout { get; set; } = new Dictionary<ReelSymbol, int>
 	{
-		return symbol switch
+		{ ReelSymbol.CHERRY, 8 },
+		{ ReelSymbol.GRAPE, 16 },
+		{ ReelSymbol.LEMON, 32 },
+		{ ReelSymbol.SPADE, 64 },
+		{ ReelSymbol.SPIDER, 128 },
+		{ ReelSymbol.BELL, 256 },
+		{ ReelSymbol.ONEBAR, 512 },
+		{ ReelSymbol.TWOBAR, 1024 },
+		{ ReelSymbol.THREEBAR,2048 },
+		{ ReelSymbol.SEVEN, 4096 },
+	};
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+
+		MiniGame.NumberOfReels = NumberOfReels;
+		MiniGame.NumberOfSymbols = NumberOfSymbols;
+
+		MiniGame.GameStart += OnGameStart;
+		MiniGame.GameEnd += OnGameEnd;
+		MiniGame.PlayerLost += OnPlayerLost;
+		MiniGame.PlayerWon += OnPlayerWon;
+	}
+
+	public void Play( GameObject player )
+	{
+		NotificationFeed.Instance.PushNotification( "Playing slot machine", 0 );
+
+		if ( player.Components.Get<PlayerMoney>( FindMode.InSelf ) is PlayerMoney playerMoney )
 		{
-			ReelSymbol.CHERRY => 8,
-			ReelSymbol.GRAPE => 16,
-			ReelSymbol.LEMON => 32,
-			ReelSymbol.SPADE => 64,
-			ReelSymbol.SPIDER => 128,
-			ReelSymbol.BELL => 256,
-			ReelSymbol.ONEBAR => 512,
-			ReelSymbol.TWOBAR => 1024,
-			ReelSymbol.THREEBAR => 2048,
-			ReelSymbol.SEVEN => 4096,
-
-			_ => 0
-		};
-	}
-
-	public int[] GetSlotSymbolSequence()
-	{
-		int[] result = new int[NumberOfReels];
-
-		for(int i=0;i<NumberOfReels; i++)
-		{
-			result[i] = Game.Random.Next(0, Enum.GetValues(typeof(ReelSymbol)).Length);	
-		}
-
-		return result;
-	}
-
-	public bool Win( int[] results)
-	{
-		// Winner if all reels have the same symbol
-		return results.Distinct().Count() == 1;
-	}
-
-	private async void ReelOneSpin()
-	{
-		await GameTask.RunInThreadAsync( ReelOneSpinTask );
-
-
-		Log.Info( $"Reel One Spin Finished" );
-
-		await GameTask.RunInThreadAsync( ReelTwoSpinTask );
-
-		Log.Info( $"Reel Two` Spin Finished" );
-	}
-
-	private async Task ReelOneSpinTask()
-	{
-		await GameTask.Delay( 1000 );
-
-		Log.Info( "spinning" );
-	}
-
-	private async Task ReelTwoSpinTask()
-	{
-		await GameTask.Delay( 1500 );
-	}
-
-	private async Task ReelThreeSpinTask()
-	{
-		await GameTask.Delay( 1500 );
-	}
-
-	public void Play(GameObject player) 
-	{
-		if ( player.Components.Get<PlayerMoney>( FindMode.InSelf ) is PlayerMoney playerMoney)
-		{
-			if(playerMoney.CurrentMoney < Bet)
+			if ( !playerMoney.CanPurchase( Bet ) )
 			{
 				NotificationFeed.Instance.PushNotification( "Not enough credits to play the slots", 0 );
 
 				return;
 			}
 
-			var results = GetSlotSymbolSequence();
+			Player = player;
 
-			foreach ( var result in results )
-			{
-				Log.Info( $"{(ReelSymbol)result}" );
-			}
-
-			Log.Info( $"{results.Distinct().Count()}" );
-
-			if ( Win( results ) )
-			{
-				var payout = Bet * GetPayout( (ReelSymbol) results[0]);
-
-				Log.Info( $"{player} wins {payout}" );
-
-				NotificationFeed.Instance.PushNotification( $"Won {payout} credits", 0 );
-
-				playerMoney.GiveMoney(payout );
-			}
-			else
-			{
-				Log.Info( $"{player} loses {Bet}" );
-
-				NotificationFeed.Instance.PushNotification( $"Lost {Bet} credits", 0 );
-
-				playerMoney.TakeMoney( Bet );
-			}
-
-			ReelOneSpin();
+			MiniGame.Start();
 		}
+	}
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		MiniGame.GameLoop();
 	}
 
 	public void Interact( GameObject player )
 	{
-		Log.Info( "Playing some slots" );
-
-		Play(player);
+		Play( player );
 	}
 
-	public void Write( ref ByteStream stream )
+	public void OnGameStart()
 	{
-		
+		if ( Components.Get<SkinnedModelRenderer>() is SkinnedModelRenderer model )
+		{
+			model.Set( "use", true );
+		}
 	}
 
-	public void Read( ByteStream stream )
+	public void OnGameEnd()
 	{
-		
+		Player = null;
+	}
+
+	public void OnPlayerLost( int[] symbols )
+	{
+		string symbolString = "";
+
+		for ( int i = 0; i < NumberOfReels; i++ )
+		{
+			symbolString += $"{(ReelSymbol)symbols[i]} ";
+		}
+
+		NotificationFeed.Instance.PushNotification( $"Symbols: {symbolString}", 0 );
+		NotificationFeed.Instance.PushNotification( $"Lost {Bet} credits", 0 );
+
+		if ( Player.Components.Get<PlayerMoney>( FindMode.InSelf ) is PlayerMoney playerMoney )
+		{
+			playerMoney.TakeMoney( Bet );
+		}
+	}
+
+	public void OnPlayerWon( int[] symbols )
+	{
+		string symbolString = "";
+
+		for ( int i = 0; i < NumberOfReels; i++ )
+		{
+			symbolString += $"{(ReelSymbol)symbols[i]} ";
+		}
+
+		if ( Player.Components.Get<PlayerMoney>( FindMode.InSelf ) is PlayerMoney playerMoney )
+		{
+			var payout = Bet * Payout[(ReelSymbol) symbols[0]];
+
+			NotificationFeed.Instance.PushNotification( $"Symbols: {symbolString}", 0 );
+			NotificationFeed.Instance.PushNotification( $"Won {payout} credits", 0 );
+
+			playerMoney.GiveMoney( payout );
+		}
 	}
 }

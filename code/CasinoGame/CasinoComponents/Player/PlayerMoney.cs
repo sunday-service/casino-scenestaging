@@ -15,6 +15,11 @@ public partial class PlayerMoney : BaseComponent
 		CurrentMoney = StartingAmount;
 	}
 
+	public bool CanPurchase(int amount)
+	{
+		return CurrentMoney >= amount;
+	}
+
 	public bool GiveMoney(int amount)
 	{
 		CurrentMoney += amount;

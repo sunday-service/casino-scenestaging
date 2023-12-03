@@ -26,8 +26,6 @@ MODES
 
 COMMON
 {
-	//#define CUSTOM_MATERIAL_INPUTS
-	#define S_UV2 1
     #include "common/shared.hlsl"
 }
 
@@ -108,7 +106,7 @@ PS
 		m.Roughness = lerp(0, m.Roughness, isFrontFace);
 		m.AmbientOcclusion = lerp(0, m.AmbientOcclusion, isFrontFace);
 		m.Emission = lerp(float3(1,0,0), float3(0,0,0), isFrontFace);
-		
+
 		clip(BurnLevelMask(i) > 0 ? 1 : -1);
 		
         return ShadingModelStandard::Shade( i, m );

@@ -1,0 +1,25 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="title">@CurrentTime</div>
+</root>
+
+@code
+{
+
+	[Property] public string CurrentTime { get; set; } = DateTime.UtcNow.ToShortTimeString();
+
+	protected override void OnFixedUpdate()
+	{
+		base.OnFixedUpdate();
+
+		CurrentTime = DateTime.UtcNow.ToShortTimeString();
+	}
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( CurrentTime );
+}

@@ -151,6 +151,7 @@ public abstract partial class BaseComponent
 		{
 			_enabledState = false;
 			_enabled = false;
+			Scene.UnregisterComponent( this );
 
 			if ( ShouldExecute )
 			{
@@ -216,4 +217,5 @@ public abstract partial class BaseComponent
 	{
 		OnTagsChannged();
 	}
+
 }

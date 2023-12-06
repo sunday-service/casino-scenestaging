@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public sealed class CigaretteComponent : BaseComponent, BaseComponent.ExecuteInEditor
+public sealed class CigaretteComponent : Component, Component.ExecuteInEditor
 {
 	[Property, Range( 0, 0.69f )] public float AmountSmoked { get; set; } = 0.5f;
 

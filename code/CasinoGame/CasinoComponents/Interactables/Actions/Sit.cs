@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public partial class Sit : BaseComponent, IInteractable
+public partial class Sit : Component, IInteractable
 {
 	public GameObject Player { get; private set; }
 	private bool IsSitting { get; set; } = false;

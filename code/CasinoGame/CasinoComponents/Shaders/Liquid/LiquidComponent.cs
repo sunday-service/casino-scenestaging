@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public sealed class LiquidComponent : BaseComponent, BaseComponent.ExecuteInEditor
+public sealed class LiquidComponent : Component, Component.ExecuteInEditor
 {
 	[Property, Range(0, 1)] public float FillAmount { get; set; } = 0.5f;
 	[Property, Range( 0, 0.5f )] public float FoamThickness { get; set; } = 0.05f;

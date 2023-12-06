@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public partial class PlayerMoney : BaseComponent
+public partial class PlayerMoney : Component
 {
 	[Property] public int StartingAmount { get; set; } = 1500;
 	public int CurrentMoney { get; private set; }

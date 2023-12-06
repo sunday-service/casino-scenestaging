@@ -1,6 +1,6 @@
 using Sandbox;
 
-public sealed class ReturnToCasinoMenu : BaseComponent
+public sealed class ReturnToCasinoMenu : Component
 {
 	protected override void OnUpdate()
 	{

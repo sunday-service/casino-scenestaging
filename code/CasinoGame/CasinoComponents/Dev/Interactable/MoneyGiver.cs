@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public partial class MoneyGiver : BaseComponent, IInteractable
+public partial class MoneyGiver : Component, IInteractable
 {
 	[Property] public int GiveAmount { get; set; } = 50;
 	public void Interact( GameObject player )

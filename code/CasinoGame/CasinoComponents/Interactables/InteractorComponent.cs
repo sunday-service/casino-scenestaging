@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public class InteractorComponent : BaseComponent
+public class InteractorComponent : Component
 {
 	[Property]
 	public GameObject Player { get; set; }

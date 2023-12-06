@@ -2,7 +2,7 @@ using Sandbox;
 using System.Drawing;
 using System.Runtime;
 
-public class CasinoPlayerController : BaseComponent, INetworkSerializable
+public class CasinoPlayerController : Component, INetworkSerializable
 {
 	[Property] public Vector3 Gravity { get; set; } = new Vector3( 0, 0, 800 );
 

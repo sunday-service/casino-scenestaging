@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public partial class Clock : BaseComponent, INetworkSerializable
+public partial class Clock : Component, INetworkSerializable
 {
 	private static double GameTime { get; set; } = 0;
 

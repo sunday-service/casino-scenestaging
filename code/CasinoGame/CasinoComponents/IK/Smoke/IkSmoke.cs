@@ -1,6 +1,6 @@
 using Sandbox;
 
-public sealed class IkSmoke : BaseComponent
+public sealed class IkSmoke : Component
 {
 	[Property] public GameObject Hand { get; set; }
 	[Property] public GameObject Consumable { get; set; }

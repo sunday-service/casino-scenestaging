@@ -2,7 +2,7 @@
 
 namespace Casino;
 
-public class CigaretteMachine : BaseComponent, IInteractable
+public class CigaretteMachine : Component, IInteractable
 {
 	[Property] int CigaretteCost { get; set; } = 20;
 	public void Interact(GameObject player)

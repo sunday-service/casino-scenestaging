@@ -1,6 +1,6 @@
 using Sandbox;
 
-public sealed class IkDrink : BaseComponent
+public sealed class IkDrink : Component
 {
 	[Property] public GameObject Hand { get; set; }
 	[Property] public GameObject Consumable { get; set;}

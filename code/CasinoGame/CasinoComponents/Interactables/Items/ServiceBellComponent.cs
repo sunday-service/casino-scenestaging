@@ -1,7 +1,7 @@
 using Casino;
 using Sandbox;
 
-public sealed class ServiceBellComponent : BaseComponent, IInteractable
+public sealed class ServiceBellComponent : Component, IInteractable
 {
 	protected override void OnUpdate()
 	{
@@ -17,6 +17,7 @@ public sealed class ServiceBellComponent : BaseComponent, IInteractable
 	[Broadcast]
 	private void PlaySound(string sound, Vector3 pos)
 	{
-		Sound.FromWorld( sound, pos );
+		Sound.Play( sound, pos );
+		
 	}
 }

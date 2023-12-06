@@ -11,7 +11,9 @@
   "MenuResources": "*",
   "HasCode": true,
   "CodePath": "/code/",
-  "PackageReferences": [],
+  "PackageReferences": [
+    "utopia.hfsm"
+  ],
   "EditorReferences": null,
   "Metadata": {
     "MaxPlayers": 16,

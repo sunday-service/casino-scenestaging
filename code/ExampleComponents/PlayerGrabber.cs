@@ -3,13 +3,11 @@ using Sandbox.Physics;
 using System.Drawing;
 using System.Runtime;
 
-public class PlayerGrabber : BaseComponent
+public class PlayerGrabber : Component
 {
 	PhysicsBody grabbedBody;
 	Transform grabbedOffset;
 	Vector3 localOffset;
-
-	Sandbox.Physics.FixedJoint joint;
 
 	bool waitForUp = false;
 
